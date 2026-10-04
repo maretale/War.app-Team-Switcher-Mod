@@ -4,6 +4,6 @@ Allows players to join teams during the game.  Open the Team Joiner mod from the
 
 To join a team, click "Join a team" and name exactly one player whose team you would like to join. You may only join a team if you are not on a team or on a team with no other players (or maybe no other human players?).
 
-You may never leave teams with this mod. The cards you have follow you to your new team like they do with the Team Switcher mod.
+You may never leave teams with this mod. The cards you have do not follow you to your new team unlike they do with the Team Switcher mod. The team being joined may use cards the turn they are joined, unlike in the Team Switcher mod.
 
 Team changes always take effect when the turn advances, so everyone plays out the turn on the teams they started it with.  Because of this, each player can only have one team change pending at a time; if you try for a second one in the same turn, you'll be asked to wait until the next turn. Oddly, this means each team may only admit one player each turn to their team.
