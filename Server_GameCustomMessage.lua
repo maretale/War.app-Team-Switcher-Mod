@@ -57,6 +57,11 @@ function ProposeTeamChange(game, playerID, payload, setReturnTable)
 		end
 	end
 
+	local allPlayerIDs = {};
+	for pid,_ in pairs(game.Game.Players) do
+		table.insert(allPlayerIDs, pid);
+	end
+
 	local teammates = TeammatesOf(game, otherPlayerID, LatestStanding(game));
 	teammates[#teammates + 1] = otherPlayerID;
 	teammates[#teammates + 1] = playerID;
@@ -79,16 +84,18 @@ function ProposeTeamChange(game, playerID, payload, setReturnTable)
 	SaveRequest(request);
 	WriteRequestToPlayerData(request);
 
-	AlertPlayers(playerIDs, PlayerName(game, playerID) .. ' will join your team when the turn advances.', playerID);
+	AlertPlayers(allPlayerIDs, 'All players: ' .. PlayerName(game, playerID) .. ' will join ' .. PlayerName(game, otherPlayerID) ..'\'s team when the turn advances.', null);
 
-	TeamChangeAccepted(game, request, playerID);
+	TeamChangeAccepted(game, request, playerID, otherPlayerID);
 	setReturnTable({ ID = request.ID, Complete = true });
 end
 
 --Everyone in the request has agreed, so queue the team change up for the turn advance and tell everyone about it.
-function TeamChangeAccepted(game, request, lastPlayerToActID)
+function TeamChangeAccepted(game, request, lastPlayerToActID, otherPlayerID)
 	--Always move everyone onto a brand new team, even if some of them are already together on one.  Anyone who changes teams leaves their cards behind, and it'd be unfair and surprising if that depended on which team they happened to end up on.
-	RecordTeamChange(request.PlayerIDs, NewTeamID(game));
+	local standing = LatestStanding(game);
+	local team = TeamOfPlayer(game, otherPlayerID, standing);
+	RecordTeamChange(request.PlayerIDs, team);
 
 	DeleteRequest(request);
 
